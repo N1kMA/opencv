@@ -1,11 +1,18 @@
 import cv2
 import numpy as np
+import urllib
+import requests
 
+url = 'http://192.168.0.5:8080/shot.jpg'
+img_response = urllib.request.urlopen(url)
+img_np = np.array(bytearray(img_response.read()), dtype=np.uint8)
+img = cv2.imdecode(img_np, -1)
 def nothing(x):
     pass
 
 # Load image
-image = cv2.imread(r'C:\Users\rrapi\Pictures\sprite.jpg')
+#image = cv2.imread(r'C:\Users\rrapi\Pictures\cat.jpg')
+image = cv2.resize(img, (1920,1080))
 
 # Create a window
 cv2.namedWindow('image')
