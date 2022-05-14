@@ -46,6 +46,8 @@ def leaving_await():
         print(cat)
         if cat != 'empty':
             who = cat
+            cv.imwrite('cat_img.jpg', img)
+            send_photo(chat_id='-724297673', file_opened=open('cat_img.jpg'))
             time_in = dt.now()
             print(f'{cat} is here! the time is {time_in}')
             while True:
@@ -58,12 +60,18 @@ def leaving_await():
             print(time_out - time_in)
 
 
-
 def pixel_counter(img_hsv, lower_b, upper_b):
     mask = cv.inRange(img_hsv, lower_b, upper_b)
     mask_open = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel_open)
     mask_close = cv.morphologyEx(mask_open, cv.MORPH_CLOSE, kernel_close)
     return cv.countNonZero(mask_close)
+
+
+def send_photo(chat_id, file_opened):
+    params = {'chat_id': chat_id}
+    files = {'photo': file_opened}
+    resp = requests.post(url, params, files=files)
+    return resp
 
 
 if __name__ == '__main__':
